@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.modeling import add_store_features
+from src.modeling import (LGBM_CATEGORICAL, LGBM_NUMERIC, add_store_features, fit_categories, to_lgbm_frame)
 
 
 def test_validation_rows_are_encoded_from_train_only():
@@ -17,3 +17,16 @@ def test_validation_rows_are_encoded_from_train_only():
     assert enc_train[["store_te", "store_share"]].notna().all().all()
     assert enc_val["store_te"].iloc[1] == pytest.approx(train["duration"].mean())   # unseen store
     assert enc_val["store_share"].iloc[1] == 0.0
+    
+    
+def test_lgbm_frame_nulls_categories_unseen_in_train():
+    cols = LGBM_NUMERIC + LGBM_CATEGORICAL
+    train = pd.DataFrame({c: [0.0, 0.0] for c in cols})
+    for c in LGBM_CATEGORICAL:
+        train[c] = ["a", "b"]
+    new = train.copy()
+    first = LGBM_CATEGORICAL[0]
+    new[first] = ["a", "zzz"]
+    X = to_lgbm_frame(new, fit_categories(train))
+    assert list(X[first].cat.categories) == ["a", "b"]
+    assert X[first].isna().tolist() == [False, True]
