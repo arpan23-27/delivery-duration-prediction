@@ -1,0 +1,20 @@
+{
+  "model_version": "0.6.0",
+  "model": "LightGBM, Huber objective (alpha = 600 s)",
+  "trained_on": "train+val: orders created 2015-01-21 to 2015-02-13 (Pacific days)",
+  "test_metrics": {
+    "mae_min": 10.545,
+    "rmse_min": 15.081,
+    "within_10min": 0.609,
+    "bias_min": -3.006,
+    "over_pct": 0.481
+  },
+  "python": "3.11.9",
+  "libraries": {
+    "pandas": "3.0.6",
+    "numpy": "2.4.6",
+    "scikit-learn": "1.9.1",
+    "lightgbm": "4.7.0",
+    "joblib": "1.6.0"
+  }
+}
