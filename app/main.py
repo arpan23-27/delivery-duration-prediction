@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
+from fastapi.responses import RedirectResponse
 
 import pandas as pd
 from fastapi import FastAPI, Request
@@ -70,6 +71,10 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="Delivery duration prediction", version="0.6.0", lifespan=lifespan)
+
+@app.get("/", include_in_schema=False)
+def root():
+    return RedirectResponse(url="/docs")
 
 
 def _utc_naive(ts):

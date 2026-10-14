@@ -34,6 +34,11 @@ def test_predict_known_store_returns_sane_duration(client, known_store):
     assert body["store_known"] is True
 
 
+def test_root_redirects_to_docs(client):
+    r = client.get("/", follow_redirects=False)
+    assert r.status_code in (302, 307)
+    assert r.headers["location"] == "/docs"
+
 def test_unseen_store_still_predicts_and_is_flagged(client):
     r = client.post("/predict", json={**ORDER, "store_id": 999_999_999})
     assert r.status_code == 200 and r.json()["store_known"] is False
