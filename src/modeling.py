@@ -58,6 +58,6 @@ def to_lgbm_frame(df, categories):
 def fit_lgbm(X_tr, y_tr, X_val, y_val, objective="regression", **overrides):
     params = {**LGBM_PARAMS, "objective": objective, **overrides}
     model = lgb.LGBMRegressor(**params)
-    model.fit(X_tr, y_tr, eval_set=[(X_val, y_val)],
+    model.fit(X_tr, y_tr, eval_X=X_val, eval_y=y_val,
               callbacks=[lgb.early_stopping(100, verbose=False), lgb.log_evaluation(0)])
     return model
