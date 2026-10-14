@@ -65,12 +65,14 @@ SHAP (TreeExplainer) shows that **queue load per dasher** (3.9 min mean absolute
 
 The model, the store-to-category map and metadata are committed in `artifacts/` (4 MB), so the service starts without the training data.
 
+
 ```bash
 docker build -t delivery-duration:0.6.0 .
 docker run --rm -p 8000:8000 delivery-duration:0.6.0
 ```
 
 Interactive docs are at `http://127.0.0.1:8000/docs`. Five fields are required; everything else is optional and a missing value is handled exactly as it was in training.
+<p align="center"><img src="docs/api_docs.png" width="640" alt="Interactive API docs showing a prediction"></p>
 
 ```bash
 curl -s http://127.0.0.1:8000/predict -H "Content-Type: application/json" -d '{
