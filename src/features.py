@@ -11,10 +11,13 @@ DASHER_COLS = ["total_onshift_dashers", "total_busy_dashers", "total_outstanding
 
 ENGINEERED_NUMERIC = [
     "hour", "day_of_week", "is_weekend",
-    "is_dasher_data_missing", "available_dashers", "busy_ratio", "outstanding_per_dasher",
+    "is_dasher_data_missing", "is_no_dashers_onshift",
+    "available_dashers", "busy_ratio", "outstanding_per_dasher",
     "avg_item_price", "price_range", "items_per_distinct",
     "estimated_total",
 ]
+
+
 RAW_NUMERIC = [
     "total_items", "subtotal", "num_distinct_items", "min_item_price", "max_item_price",
     "total_onshift_dashers", "total_busy_dashers", "total_outstanding_orders",
@@ -47,9 +50,10 @@ def add_marketplace_features(df):
     outstanding = df["total_outstanding_orders"]
 
     df["is_dasher_data_missing"] = df[DASHER_COLS].isna().any(axis=1).astype("int8")
+    df["is_no_dashers_onshift"] = (onshift == 0).astype("int8")
     df["available_dashers"] = (onshift - busy).clip(lower=0)
-    df["busy_ratio"] = _safe_divide(busy, onshift).clip(upper=BUSY_RATIO_CAP)
-    df["outstanding_per_dasher"] = _safe_divide(outstanding, onshift)
+    df["busy_ratio"] = (busy / onshift.clip(lower=1)).clip(upper=BUSY_RATIO_CAP)
+    df["outstanding_per_dasher"] = outstanding / onshift.clip(lower=1)
     return df
 
 
@@ -86,3 +90,4 @@ def build_features(df):
     df = add_estimate_features(df)
     df = prepare_categoricals(df)
     return df
+

@@ -33,14 +33,17 @@ def test_marketplace_features_normal_case():
     assert r["busy_ratio"] == 0.5
     assert r["outstanding_per_dasher"] == 0.8
     assert r["is_dasher_data_missing"] == 0
+    assert r["is_no_dashers_onshift"] == 0
 
 
 def test_marketplace_features_busy_exceeds_onshift_and_zero_onshift():
     r = build(total_busy_dashers=30.0)
     assert r["available_dashers"] == 0          # clipped
-    assert r["busy_ratio"] == 2.0               # capped
     r0 = build(total_onshift_dashers=0.0)
-    assert np.isnan(r0["busy_ratio"])           # no division by zero
+    assert r0["is_no_dashers_onshift"] == 1
+    assert r0["busy_ratio"] == 2.0              # 5 / 1 = 5, capped
+    assert r0["outstanding_per_dasher"] == 8.0  # 8 / 1
+
 
 
 def test_missing_dashers_flagged():
