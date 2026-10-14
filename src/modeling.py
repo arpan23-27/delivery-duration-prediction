@@ -51,9 +51,9 @@ def fit_categories(train):
 def to_lgbm_frame(df, categories):
     X = df[LGBM_NUMERIC + LGBM_CATEGORICAL].copy()
     for c in LGBM_CATEGORICAL:
-        X[c] = pd.Categorical(X[c], categories=categories[c])   # unseen level -> NaN
+        known = X[c].where(X[c].isin(categories[c]))          # unseen level -> NaN
+        X[c] = pd.Categorical(known, categories=categories[c])
     return X
-
 
 def fit_lgbm(X_tr, y_tr, X_val, y_val, objective="regression", **overrides):
     params = {**LGBM_PARAMS, "objective": objective, **overrides}
