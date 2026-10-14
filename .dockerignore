@@ -1,0 +1,13 @@
+.git
+.venv
+venv
+data
+models
+reports
+notebooks
+Concept
+tests
+scripts
+__pycache__
+*.pyc
+.ipynb_checkpoints
