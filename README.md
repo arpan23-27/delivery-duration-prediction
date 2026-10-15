@@ -3,9 +3,9 @@
 Predicting how long a food delivery will take, from the moment the order is placed. The final model is a LightGBM regressor with a Huber loss. On a later, untouched four-day test window it is off by **10.5 minutes on average (MAE)**, which is 21% better than the best simple baseline built from the dataset's own time estimates, and it is served through a FastAPI app in a Docker image.
 
 
-**Live demo:** [delivery-duration-prediction.onrender.com](https://delivery-duration-prediction.onrender.com) (free tier: if it has been idle, the first request takes about a minute to wake the service)
-"Delivery Duration Prediction" take-home (DoorDash).
-**Live demo:** https://delivery-duration-prediction.onrender.com (opens the interactive API docs). It runs on Render's free tier, so after 15 minutes idle the first request takes about a minute to wake up.
+Based on the StrataScratch "Delivery Duration Prediction" take-home (DoorDash).
+
+**Live demo:** [delivery-duration-prediction.onrender.com](https://delivery-duration-prediction.onrender.com) (opens the interactive API docs). It runs on Render's free tier, so if it has been idle, the first request takes about a minute to wake up.
 
 
 | Model (test set, Feb 14-17) | MAE (min) | 95% CI | RMSE (min) | Within ±10 min |
@@ -76,6 +76,7 @@ docker run --rm -p 8000:8000 delivery-duration:0.6.0
 ```
 
 Interactive docs are at `http://127.0.0.1:8000/docs` locally, or on the hosted copy at https://delivery-duration-prediction.onrender.com/docs. Five fields are required; everything else is optional and a missing value is handled exactly as it was in training.
+
 <p align="center"><img src="docs/api_docs.png" width="640" alt="Interactive API docs showing a prediction"></p>
 
 ```bash
@@ -128,7 +129,7 @@ artifacts/      trained model, store category map, metadata (what the service lo
 notebooks/      the analysis in order, with observations written next to the results
 reports/figures/  figures used above and in the notebooks
 scripts/        artifact export and train/serve parity check
-tests/          unit and API tests (40)
+tests/          unit and API tests (41)
 Dockerfile, requirements-serve.txt
 ```
 
