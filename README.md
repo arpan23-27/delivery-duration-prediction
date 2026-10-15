@@ -4,7 +4,9 @@ Predicting how long a food delivery will take, from the moment the order is plac
 
 
 **Live demo:** [delivery-duration-prediction.onrender.com](https://delivery-duration-prediction.onrender.com) (free tier: if it has been idle, the first request takes about a minute to wake the service)
-Based on the StrataScratch "Delivery Duration Prediction" take-home (DoorDash).
+"Delivery Duration Prediction" take-home (DoorDash).
+**Live demo:** https://delivery-duration-prediction.onrender.com (opens the interactive API docs). It runs on Render's free tier, so after 15 minutes idle the first request takes about a minute to wake up.
+
 
 | Model (test set, Feb 14-17) | MAE (min) | 95% CI | RMSE (min) | Within ±10 min |
 |---|---|---|---|---|
@@ -73,7 +75,7 @@ docker build -t delivery-duration:0.6.0 .
 docker run --rm -p 8000:8000 delivery-duration:0.6.0
 ```
 
-Interactive docs are at `https://delivery-duration-prediction.onrender.com/docs`. Five fields are required; everything else is optional and a missing value is handled exactly as it was in training.
+Interactive docs are at `http://127.0.0.1:8000/docs` locally, or on the hosted copy at https://delivery-duration-prediction.onrender.com/docs. Five fields are required; everything else is optional and a missing value is handled exactly as it was in training.
 <p align="center"><img src="docs/api_docs.png" width="640" alt="Interactive API docs showing a prediction"></p>
 
 ```bash
